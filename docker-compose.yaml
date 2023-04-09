@@ -1,0 +1,33 @@
+version: '3'
+services:
+  booking-web:
+    build:
+      args:
+        - NODE_ENV=development
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./public:/app/public
+      - ./src:/app/src
+    expose:
+      - '3000'
+    ports:
+      - '3000:3000'
+    networks:
+      - booking
+    environment:
+      - NODE_ENV=development
+    command: yarn dev
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '2'
+          memory: 2G
+
+networks:
+  autofox:
+    name: booking
+    driver: bridge
