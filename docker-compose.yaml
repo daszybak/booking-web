@@ -9,6 +9,7 @@ services:
     volumes:
       - ./public:/app/public
       - ./src:/app/src
+      - .env:/app/.env
     expose:
       - '3000'
     ports:

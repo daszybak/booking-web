@@ -1,11 +1,20 @@
-interface NavbarProps { }
+'use client';
 
-const Navbar: React.FC<NavbarProps> = ({ }) => {
+import { useAuthHelpers } from 'src/helpers/useAuthHelpers';
+
+const Navbar = () => {
+	const { handleSignIn, isAuthenticated } = useAuthHelpers();
 	return (
 		<nav>
 			<div>
 				<ul>
-					<li>Login</li>
+					{isAuthenticated ? (
+						<li>User</li>
+					) : (
+						<li>
+							<a onClick={handleSignIn}>Login</a>
+						</li>
+					)}
 					<li>Documentation</li>
 					<li>Source Code</li>
 				</ul>
