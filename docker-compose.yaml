@@ -28,6 +28,6 @@ services:
           memory: 2G
 
 networks:
-  autofox:
+  booking:
     name: booking
     driver: bridge
