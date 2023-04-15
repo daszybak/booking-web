@@ -26,8 +26,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Login to ECR
         id: login-ecr
-        run: |
-          aws ecr-public get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin public.ecr.aws
+        uses: aws-actions/amazon-ecr-login@v1
 #TO DO Add caching https://docs.docker.com/build/cache/backends/gha/
 #we could also use github.sha to tag the images so we don't overwrite the image on the ECR
 #and also make this more DRY by putting booking-web into a variable
