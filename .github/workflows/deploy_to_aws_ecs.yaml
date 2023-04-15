@@ -33,15 +33,9 @@ jobs:
 #and also make this more DRY by putting booking-web into a variable
       - name: Build, tag, and push Docker Image to ECR
         id: build-image
-        env:
-          ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
-          IMAGE=${{ steps.login-ecr.outputs.registry}}/booking-web:latest
         run: |
-          echo $IMAGE
-          echo $ECR_REGISTRY
-          docker tag booking-web:latest $IMAGE \
-          && docker push $IMAGE
-          echo "image=$IMAGE" >> $GITHUB_OUTPUT
+          docker tag booking-web:latest  ${{ steps.login-ecr.outputs.registry}}/booking-web:latest\
+          && docker push ${{ steps.login-ecr.outputs.registry}}/booking-web:latest
 #if we use different image names we have to prepare the task definition   
       - name: Prepare ECS task definition
         id: task-definition
