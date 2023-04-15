@@ -34,7 +34,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
-          IMAGE=${{ steps.login-ecr.outputs.registry}/booking-web:latest }}
+          IMAGE=${{ steps.login-ecr.outputs.registry}}/booking-web:latest 
         run: |
           docker tag booking-web:latest $IMAGE \
           && docker push $IMAGE
