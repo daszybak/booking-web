@@ -8,7 +8,6 @@
 	"containerDefinitions": [
 		{
 			"name": "booking-web",
-#this can get replaced with the Prepare ECS task definition action in the Github Workflow
 			"image": "449043730342.dkr.ecr.eu-central-1.amazonaws.com/booking-web:latest",
 			"cpu": 256,
 			"memory": 512,
