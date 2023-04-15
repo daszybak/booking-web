@@ -43,6 +43,7 @@ jobs:
 #if we use different image names we have to prepare the task definition   
       - name: Prepare ECS task definition
         id: task-definition
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
           container-name: booking-web
