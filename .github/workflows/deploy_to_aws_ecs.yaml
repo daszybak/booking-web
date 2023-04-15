@@ -1,0 +1,56 @@
+name: Deploy to AWS ECS
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: action/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Build Docker Image
+        run: docker build -t booking-web .
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Login to ECR
+        id: login-ecr
+        run: |
+          aws ecr-public get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin public.ecr.aws
+#we could also use github.sha to tag the images so we don't overwrite the image on the ECR
+#and also make this more DRY by putting booking-web into a variable
+      - name: Build, tag, and push Docker Image to ECR
+        id: build-image
+        env:
+          ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          IMAGE=${{ steps.login-ecr.outputs.registry}/booking-web:latest }}
+        run: |
+          docker tag booking-web:latest $IMAGE \
+          && docker push $IMAGE
+          echo "image=$IMAGE" >> $GITHUB_OUTPUT
+          echo "steps.login-ecr.outputs" >> $GITHUB_STEP_SUMMARY
+#if we use different image names we have to prepare the task definition   
+      - name: Prepare ECS task definition
+        id: task-definition
+        with:
+          task-definition: task-definition.json
+          container-name: booking-web
+          image: ${{ steps.build-image.outputs.image }}
+      - name: Deploy Amazon ECS task-definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-definition.outputs.task-definition }}
+          service: booking-web
+          cluster: booking
+
