@@ -36,6 +36,8 @@ jobs:
           ECR_REGISTRY='${{ steps.login-ecr.outputs.registry }}'
           IMAGE='${{ steps.login-ecr.outputs.registry}}/booking-web:latest'
         run: |
+          echo $IMAGE
+          echo $ECR_REGISTRY
           docker tag booking-web:latest $IMAGE \
           && docker push $IMAGE
           echo "image=$IMAGE" >> $GITHUB_OUTPUT
