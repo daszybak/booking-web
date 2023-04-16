@@ -25,12 +25,11 @@ jobs:
                   mask-aws-account-id: false
             - name: Create Zip
               run: |
-                  sudo apt install zip
                   zip -r booking-web.zip . -x '*.git*'
             - name: Deploy to AWS S3
               run: |
-                  aws s3 sync booking-web.zip s3://booking-web-source-code --debug
-                  echo pwd >> $GITHUB_SUMMARY
+                  aws s3 sync booking-web.zip s3://booking-web-source-code
+                  echo pwd
 
 #--exclude ".git/*" \
 #--exclude ".github/*" \
