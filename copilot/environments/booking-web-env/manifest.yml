@@ -1,0 +1,28 @@
+# The manifest for the "booking-web-env" environment.
+# Read the full specification for the "Environment" type at:
+#  https://aws.github.io/copilot-cli/docs/manifest/environment/
+
+# Your environment name will be used in naming your resources like VPC, cluster, etc.
+name: booking-web-env
+type: Environment
+
+# Import your own VPC and subnets or configure how they should be created.
+network:
+  vpc:
+    id: vpc-0a11212a902f20acf
+    subnets:
+      public:
+        - id: subnet-096cb154c75eae4b6
+        - id: subnet-095bb826840cfedda
+      private:
+        - id: subnet-05c6557b04b900c11
+        - id: subnet-050747e83c9f67e08
+
+# Configure the load balancers in your environment, once created.
+# http:
+#   public:
+#   private:
+
+# Configure observability for your environment resources.
+observability:
+  container_insights: false
