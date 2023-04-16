@@ -26,7 +26,7 @@ jobs:
             - name: Create Zip
               run: |
                   zip -r booking-web.zip . -x '*.git*'
-                  echo pwd
+                  pwd
                   ls -la
             - name: Deploy to AWS S3
               run: |
