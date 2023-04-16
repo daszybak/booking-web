@@ -30,8 +30,10 @@ jobs:
                   ls -la
             - name: Deploy to AWS S3
               run: |
-                  aws s3 sync ./booking-web.zip s3://booking-web-source-code/booking-web.zip
+                  aws s3 put-object ./booking-web.zip s3://booking-web-source-code/booking-web.zip
                   echo pwd
+
+#aws s3 sync ./booking-web.zip s3://booking-web-source-code/booking-web.zip
 
 #--exclude ".git/*" \
 #--exclude ".github/*" \
