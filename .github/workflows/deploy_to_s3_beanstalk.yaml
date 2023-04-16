@@ -20,25 +20,25 @@ jobs:
             - name: Configure AWS Credentials
               uses: aws-actions/configure-aws-credentials@v2
               with:
-                  role-to-assume: arn:aws:iam::449043730342:role/GithubECSAndECRFullRole
+                  role-to-assume: arn:aws:iam::449043730342:role/GithubActions
                   aws-region: eu-central-1
                   mask-aws-account-id: false
             - name: Create Zip
               run: |
-                  zip -r ../booking-web.zip .
+                  .zip -r booking-web.zip . -x '*.git*'
             - name: Deploy to AWS S3
               run: |
-                  aws s3 sync . s3://booing-web-source-code --debug \
-                    --exclude ".git/*" \
-                    --exclude ".github/*" \
-                    --exclude "node_modules/*" \
-                    --exclude "package-lock.json" \
-                    --exclude "package.json" \
-                    --exclude "README.md" \
-                    --exclude "LICENSE" \
-                    --exclude "serverless.yml" \
-                    --exclude "serverless.env.yml" \
-                    --exclude "serverless-offline.yml" \
-                    --exclude "serverless-local.yml"\
-                    --exclude "serverless-local.env.yml"
+                  aws s3 sync booking-web.zip s3://booking-web-source-code --debug \
+#--exclude ".git/*" \
+#--exclude ".github/*" \
+#--exclude "node_modules/*" \
+#--exclude "package-lock.json" \
+#--exclude "package.json" \
+#--exclude "readme.md" \
+#--exclude "license" \
+#--exclude "serverless.yml" \
+#--exclude "serverless.env.yml" \
+#--exclude "serverless-offline.yml" \
+#--exclude "serverless-local.yml"\
+#--exclude "serverless-local.env.yml"
                   echo pwd >> $GITHUB_SUMMARY
